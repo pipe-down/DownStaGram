@@ -1,4 +1,4 @@
-package downstagram.downstagram;
+package downstagram.downstagram.controller;
 
 import downstagram.downstagram.domain.User;
 import downstagram.downstagram.model.UserDto;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +18,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public List<User> findUsers() {
-        return userService.list();
+    public List<UserDto> findUsers() {
+        return userService.list().stream().map(UserDto::new).collect(Collectors.toList());
     }
 
     @GetMapping("/users/{userId}/{password}")

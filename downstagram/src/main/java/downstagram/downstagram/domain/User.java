@@ -45,3 +45,4 @@ public class User extends BaseEntity {
         this.enable = enable;
     }
 }
+
