@@ -1,5 +1,6 @@
 package downstagram.downstagram.domain;
 
+import downstagram.downstagram.utils.EncryptionUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,9 @@ public class User extends BaseEntity {
     private String introduce;
     private String phone;
     private String website;
-    private String userType;
+
+    @Enumerated(EnumType.STRING)
+    private IndiUserType userType; // GUEST, USER, ADMIN
     private int enable;
 
     public User(String userId, String password) {
@@ -33,7 +36,22 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public User(Long id, String userId, String password, String name, String introduce, String phone, String website, String userType, int enable) {
+    public static User createUser(String userId, String password, String name, String introduce, String phone, String website) {
+        return new User(userId, EncryptionUtils.encryptMD5(password), name, introduce, phone, website, IndiUserType.USER, 1);
+    }
+
+    public User(String userId, String password, String name, String introduce, String phone, String website, IndiUserType userType, int enable) {
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.introduce = introduce;
+        this.phone = phone;
+        this.website = website;
+        this.userType = userType;
+        this.enable = enable;
+    }
+
+    public User(Long id, String userId, String password, String name, String introduce, String phone, String website, IndiUserType userType, int enable) {
         this.id = id;
         this.userId = userId;
         this.password = password;
