@@ -1,6 +1,6 @@
 .container {
     width: 350px;
-    height: 380px;
+    height: 580px;
     margin: 100px auto;
     display: flex;
     flex-direction: column;
@@ -9,6 +9,7 @@
     background-color: #fff;
     border: 1px solid #DBDBDB;
 }
+
 img.logo_instagram {
     align-self: center;
     width: 175px;
@@ -56,6 +57,7 @@ img.logo_instagram {
 #btn_login:focus {
     outline: none;
 }
+
 a {
     cursor: default;
 }
@@ -67,4 +69,70 @@ a {
 }
 .button_forgot:hover {
     cursor: pointer;
+}
+
+.button_register {
+    color : #00366B;
+    align-self: center;
+    font-size: 12px;
+    margin-top: 70px;
+}
+.button_register:hover {
+    cursor: pointer;
+}
+
+#btn_register {
+    -webkit-text-size-adjust: 100%;
+    --f52: 142,142,142;
+    --h1d: 255,255,255;
+    --de5: 255,255,255;
+    --d69: 0,149,246;
+    --b86: 88,195,34;
+    --i30: 237,73,86;
+    --d62: 255,255,255;
+    --e4f: 54,54,54;
+    --a72: 255,255,255;
+    --ie3: 142,142,142;
+    --c37: 237,73,86;
+    --f24: 0,149,246;
+    --jbb: 53,121,234;
+    --eca: 255,255,255;
+    --jb7: 0,0,0;
+    --fa7: 224,241,255;
+    --ba8: 168,168,168;
+    --eac: 237,73,86;
+    --i1d: 38,38,38;
+    --edc: 199,199,199;
+    --f75: 38,38,38;
+    --fe0: 0,55,107;
+    --d87: 255,255,255;
+    --b3f: 250,250,250;
+    --bb2: 239,239,239;
+    --f23: 255,255,255;
+    --b38: 219,219,219;
+    --b6a: 219,219,219;
+    --ca6: 219,219,219;
+    --cdd: 38,38,38;
+    --e22: 199,199,199;
+    --e62: 245,251,255;
+    --b2f: 88,195,34;
+    --c8c: 168,168,168;
+    --ce3: 239,239,239;
+    --jd9: 0,0,0;
+    --j64: 54,54,54;
+    --a97: 243,243,243;
+    --d20: 38,38,38;
+    -webkit-box-direction: normal;
+    text-align: center;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    text-decoration-line: none;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 600;
+    color: #0095f6;
+    display: inline!important;
+    margin: 0!important;
 }

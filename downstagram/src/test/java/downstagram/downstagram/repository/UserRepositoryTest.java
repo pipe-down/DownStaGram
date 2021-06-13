@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -37,5 +39,16 @@ class UserRepositoryTest {
         assertThat(result.getPassword()).isEqualTo(user.getPassword());
     }
 
+    @Test
+    public void register() {
+        User user = User.createUser("TEST_REGI", "ST_pasword", "testname", null, "phoneNumber", null);
+        userRepository.save(user);
 
+        em.flush();
+        em.clear();
+
+        List<User> result = userRepository.findByUserId("TEST_REGI");
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result).extracting("name").containsExactly("testname");
+    }
 }
