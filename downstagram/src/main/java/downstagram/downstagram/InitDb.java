@@ -1,0 +1,35 @@
+package downstagram.downstagram;
+
+import downstagram.downstagram.domain.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+
+@Component
+@RequiredArgsConstructor
+public class InitDb {
+
+    private final InitService initService;
+
+    @PostConstruct
+    public void init() {
+        initService.init();
+    }
+
+    @Component
+    @Transactional
+    @RequiredArgsConstructor
+    static class InitService {
+        private final EntityManager em;
+
+        public void init() {
+            for (int i = 0; i < 100; i++) {
+                User user = User.createUser("test"+i+"@naver.com", "test"+i, "테스트"+i, null, "01011112222", null);
+                em.persist(user);
+            }
+        }
+    }
+}

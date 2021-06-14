@@ -2,7 +2,7 @@ package downstagram.downstagram.controller;
 
 import downstagram.downstagram.model.UserRegistrationModel;
 import downstagram.downstagram.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 
 @Controller
+@RequiredArgsConstructor
 public class GuestController {
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
     @GetMapping({"/","/guest/login"})
     public String login(Model model) {

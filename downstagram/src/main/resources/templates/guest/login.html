@@ -1,24 +1,39 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/header :: header" />
+<head>
+    <link href="/css/login.css" rel="stylesheet" type="text/css" />
+</head>
 <body>
-<div class="container">
-    <img class="logo_instagram" src="img/logo_text.png" alt="instagram_logo">
-    <input type="text" class="input_login" name="loginId" id="loginId" placeholder="전화번호, 사용자 이름 또는 이메일">
-    <input type="password" class="input_login" name="passwd" id="passwd" placeholder="비밀번호">
-    <a href="#none"><button id="btn_login">로그인</button></a>
-    <span class="button_register">계정이 없으신가요? <a href="/guest/register" id="btn_register">가입하기</a></span>
+<form th:action="@{/guest/login_processing}" method="post">
+        <sec:authorize access="not authenticated">
+        <div class="container">
+            <img class="logo_instagram" src="/img/logo_text.png" alt="instagram_logo">
+            <input type="text" class="input_login" name="loginId" id="loginId" placeholder="전화번호, 사용자 이름 또는 이메일">
+            <input type="password" class="input_login" name="passwd" id="passwd" placeholder="비밀번호">
+            <a href="#none"><button id="btn_login">로그인</button></a>
+            <span class="button_register">계정이 없으신가요? <a href="/guest/register" class="btn_register" id="btn_register">가입하기</a></span>
 
-    <!--
-    <div>
-        <a href="/guest/register" class="btn btn-dark">가입하기</a>
-    </div>
-    <span th:if = "${ param.error != null }">
-        <div class="mt5">로그인 실패</div>
-    </span>
-    -->
+            <span th:if = "${ param.error != null }">
+                <div class="button_register">로그인에 실패하였습니다.....</div>
+            </span>
+        </div>
+        </sec:authorize>
+        <sec:authorize access="authenticated">
+            <div class="container2">
+                <span class="button_register2">잘못된 접근입니다
+                <a href="/main" class="btn_register">피드로 가기</a>
+                </span>
+            </div>
+        </sec:authorize>
+        <!--
+        <div>
+            <a href="/guest/register" class="btn btn-dark">가입하기</a>
+        </div>
+        -->
 
-</div>
+</form>
 <script src="js/login.js"></script>
 </body>
 </html>

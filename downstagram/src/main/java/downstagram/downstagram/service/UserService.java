@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +43,11 @@ public class UserService {
         return null;
     }
 
+    public UserDto findByUserId(String userId) {
+        User user = userRepository.findUserByUserId(userId);
+        return new UserDto(user);
+    }
+
     @Transactional
     public void save(UserRegistrationModel userModel) {
         validateDuplicateMember(userModel);
@@ -55,13 +59,6 @@ public class UserService {
         List<User> user = userRepository.findByUserId(userModel.getUserid());
         if (user.size()>0) { // 유저 중복 체크
             throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
-    }
-
-    @PostConstruct
-    public void init() {
-        for (int i = 0; i < 100; i++) {
-            userRepository.save(new User("user"+i, EncryptionUtils.encryptMD5("test"+i)));
         }
     }
 }
