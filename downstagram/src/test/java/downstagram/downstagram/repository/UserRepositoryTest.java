@@ -51,4 +51,20 @@ class UserRepositoryTest {
         assertThat(result.size()).isEqualTo(1);
         assertThat(result).extracting("name").containsExactly("testname");
     }
+
+    @Test
+    public void update() {
+        User user = User.createUser("TEST_REGI", "ST_pasword", "testname", null, "phoneNumber", null);
+        userRepository.save(user);
+
+        em.flush();
+        em.clear();
+
+        User findUser = userRepository.findUserByUserId("TEST_REGI");
+        findUser.updateUser("TEST001", "TEST002", "TEST003");
+        assertThat(findUser.getName()).isEqualTo("TEST001");
+        assertThat(findUser.getWebsite()).isEqualTo("TEST002");
+        assertThat(findUser.getIntroduce()).isEqualTo("TEST003");
+    }
+
 }

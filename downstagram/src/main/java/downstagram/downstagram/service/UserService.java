@@ -43,9 +43,9 @@ public class UserService {
         return null;
     }
 
-    public UserDto findByUserId(String userId) {
+    public User findByUserId(String userId) {
         User user = userRepository.findUserByUserId(userId);
-        return new UserDto(user);
+        return user;
     }
 
     @Transactional
@@ -53,6 +53,12 @@ public class UserService {
         validateDuplicateMember(userModel);
         User user = User.createUser(userModel.getUserid(), userModel.getPasswd1(), userModel.getName(), null, userModel.getPhone(), null);
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void profile_update(String userId, String name, String website, String introduce) {
+        User user = findByUserId(userId);
+        user.updateUser(name, website, introduce);
     }
 
     private void validateDuplicateMember(UserRegistrationModel userModel) {

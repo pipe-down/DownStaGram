@@ -27,5 +27,4 @@ public class UserController {
         User user = userService.login(userId, password);
         return new UserDto(user.getUserId());
     }
-
 }

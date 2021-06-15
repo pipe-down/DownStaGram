@@ -11,3 +11,16 @@ body {
 p, span {
     font-size: 14px;
 }
+
+label {
+    padding: .5em .15em;
+    /* color: #fff; */
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    /* background-color: #5cb85c; */
+    cursor: pointer;
+    /* border: 1px solid #ccc; */
+    border-radius: .25em;
+    display: inline-block;
+}

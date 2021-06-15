@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<head>
+  <link href="/css/login.css" rel="stylesheet" type="text/css" />
+  <link href="/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<head th:replace="fragments/bodyHeader :: bodyHeader" />
+<main>
+  <form th:action="@{/main/user/info_update}" method="post" enctype="multipart/form-data">
+    <div class="container">
+      <img class="update_profile" src="/img/profile03.png" alt="instagram_logo">
+      <input type="file" id="File" name="files" />
+      <label th:for="name">이름</label>
+      <input type="text" class="input_login" name="name" th:value="${user.name}" placeholder="이름">
+      <label th:for="website">웹사이트</label>
+      <input type="text" class="input_login" name="website" th:value="${user.website}" placeholder="웹사이트">
+      <label th:for="intro">소개</label>
+      <input type="text" class="input_login" name="intro" th:value="${user.introduce}" placeholder="소개">
+      <a href="#none"><button type="submit" id="btn_login">제출</button></a>
+    </div>
+  </form>
+</main>
+</body>
+</html>

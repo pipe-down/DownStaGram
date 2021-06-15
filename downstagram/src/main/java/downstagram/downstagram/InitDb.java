@@ -27,7 +27,7 @@ public class InitDb {
 
         public void init() {
             for (int i = 0; i < 100; i++) {
-                User user = User.createUser("test"+i+"@naver.com", "test"+i, "테스트"+i, null, "01011112222", null);
+                User user = User.createUser("test"+i+"@naver.com", "test"+i, "테스트"+i, "자기소개~!"+i, "01011112222", "https://github.com/pipe-down");
                 em.persist(user);
             }
         }

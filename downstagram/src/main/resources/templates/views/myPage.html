@@ -3,7 +3,92 @@
 <head th:replace="fragments/header :: header" />
 <head>
   <link href="/css/main.css" rel="stylesheet" type="text/css" />
+  <link href="/css/profile.css" rel="stylesheet" type="text/css" />
+  <link href="/css/profileSetting.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<head th:replace="fragments/bodyHeader :: bodyHeader" />
+<main>
+<!--프로필 섹션-->
+<section class="profile">
+  <!--유저정보 컨테이너-->
+  <div class="profileContainer">
+
+    <!--유저이미지-->
+    <div class="profile-left">
+      <div class="profile-img-wrap story-border" onclick="popup('.modal-image')">
+        <form id="profile-image_form">
+          <input type="file" name="profileImageFile" style="display:none;" id="profile-image_input"/>
+        </form>
+        <img src="/img/profile03.png" alt=""  id="profile-image-url"/>
+        <svg viewbox="0 0 110 110">
+          <circle cx="55" cy="55" r="53" />
+        </svg>
+      </div>
+    </div>
+    <!--유저이미지end-->
+
+    <!--유저정보 및 사진등록 구독하기-->
+    <div class="profile-right">
+      <div class="name-group">
+        <h2 th:text="${user.name}"></h2>
+          <div th:if="${ user.userId != null }">
+            <button class="cta" th:onclick="'location.href=\'' + @{'/main/user/update/'+${user.id}} + '\''">프로필 편집</button>
+            <button class="modi" onclick="popup('.modal-info')">
+              <i class="fas fa-cog"></i>
+            </button>
+            <button th:if="${ user.userId != null }" class="cta blue" onclick="followOrUnFollowProfile(${dto.user.id})"  id="follow_profile_btn">구독취소</button>
+            <button th:unless="${ user.userId != null }" class="cta" onclick="followOrUnFollowProfile(${dto.user.id})" id="follow_profile_btn">구독하기</button>
+          </div>
+      </div>
+      <div class="follow">
+        <ul>
+          <li><a href="">
+            게시물<span>4</span>
+          </a></li>
+          <li><a href="" id="subscribe_btn">
+            구독정보<span>2</span>
+          </a></li>
+        </ul>
+      </div>
+      <div class="state">
+        <h4 th:text="${user.introduce}"></h4>
+        <h4 th:text="${user.website}"></h4>
+      </div>
+    </div>
+    <div>
+    </div>
+
+
+  </div>
+</section>
+
+<!--게시물컨섹션-->
+<section id="tab-content">
+  <!--게시물컨컨테이너-->
+  <div class="profileContainer">
+    <!--그냥 감싸는 div (지우면이미지커짐)-->
+    <div id="tab-1-content" class="tab-content-item show">
+      <!--게시물컨 그리드배열-->
+      <div class="tab-1-content-inner">
+
+
+          <div class="img-box">
+            <a href="">
+              <img src="#" alt="">
+            </a>
+            <div class="comment">
+              <a href="#a" class="">
+                <i class="fas fa-heart"></i><span>7</span>
+              </a>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
 </body>
 </html>

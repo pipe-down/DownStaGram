@@ -29,6 +29,12 @@ img.logo_instagram {
     width: 175px;
     margin: 35px 0;
 }
+
+img.update_profile {
+    align-self: center;
+    width: 105px;
+    margin: 35px 0;
+}
 .input_login {
     width: 270px;
     height: 40px;

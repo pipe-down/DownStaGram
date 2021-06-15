@@ -10,27 +10,7 @@
   }
 </style>
 <body>
-    <!-- navigation -->
-    <nav>
-      <div class="nav-container">
-        <div class="nav-1">
-          <!-- <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/logo.png" alt="logo_img">
-          <div class="vl"></div> -->
-          <img class="logo_instagram_txt" src="/img/logo_text.png" alt="logo_text">
-        </div>
-        <input id="searchInput" type="search" class="input-search" placeholder="검색">
-        <div class="nav-2">
-          <img src="/img/home.png" alt="홈">
-          <img src="/img/dm.png" alt="DM">
-          <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/explore.png" alt="탐색">
-          <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png" alt="하트">
-          <span th:if="${user.userId!=null}" th:text="${user.userId}"></span>
-          <a th:href="@{'/main/user/'+${user.id}}">
-            <img class="pic" src="/img/profile03.png" alt="마이페이지">
-          </a>
-        </div>
-      </div>
-    </nav>
+    <head th:replace="fragments/bodyHeader :: bodyHeader" />
     <!-- main -->
     <main>
       <div class="feeds">
