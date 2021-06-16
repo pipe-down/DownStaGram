@@ -21,7 +21,6 @@
     <input type="password" th:field="*{passwd1}" class="input_login"
            placeholder="비밀번호를 입력하세요"
            th:class="${#fields.hasErrors('passwd1')}? 'input_login fieldError' : 'input_login'">
-    <p th:if="${#fields.hasErrors('passwd1')}" th:errors="*{passwd1}">Incorrect date</p>
 
     <input type="text" class="input_login" th:field="*{name}" name="name" id="name" placeholder="성명"
            th:class="${#fields.hasErrors('name')}? 'input_login fieldError' : 'input_login'">

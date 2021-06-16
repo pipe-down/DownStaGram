@@ -5,8 +5,9 @@ const loginBtn = document.getElementById('btn_login');
 const linkToMain = document.getElementsByTagName('a')[0];
 
 function idCheck() {
-    var hasAt = idInput.value.indexOf('@');
-    return hasAt !== -1 ? true : false;
+    // var hasAt = idInput.value.indexOf('@');
+    // return hasAt !== -1 ? true : false;
+    return true;
 }
 
 function pwCheck() {

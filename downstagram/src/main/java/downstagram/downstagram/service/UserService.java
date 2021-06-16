@@ -3,6 +3,7 @@ package downstagram.downstagram.service;
 import downstagram.downstagram.domain.User;
 import downstagram.downstagram.model.UserDto;
 import downstagram.downstagram.model.UserRegistrationModel;
+import downstagram.downstagram.repository.UserImageRepository;
 import downstagram.downstagram.repository.UserRepository;
 import downstagram.downstagram.utils.EncryptionUtils;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserImageRepository userImageRepository;
 
     public List<User> list() {
         return userRepository.findAll();
@@ -52,6 +54,7 @@ public class UserService {
     public void save(UserRegistrationModel userModel) {
         validateDuplicateMember(userModel);
         User user = User.createUser(userModel.getUserid(), userModel.getPasswd1(), userModel.getName(), null, userModel.getPhone(), null);
+
         userRepository.save(user);
     }
 
@@ -59,6 +62,14 @@ public class UserService {
     public void profile_update(String userId, String name, String website, String introduce) {
         User user = findByUserId(userId);
         user.updateUser(name, website, introduce);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void profile_image(String userId, String profileImg) {
+        User user = findByUserId(userId);
+        user.setProfileImg(profileImg);
+        userRepository.save(user);
     }
 
     private void validateDuplicateMember(UserRegistrationModel userModel) {

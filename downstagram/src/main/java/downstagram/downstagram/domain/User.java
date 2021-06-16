@@ -1,11 +1,14 @@
 package downstagram.downstagram.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import downstagram.downstagram.utils.EncryptionUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "indi_user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,17 +30,29 @@ public class User extends BaseEntity {
     private String phone;
     private String website;
 
+    private String profileImg;
+
     @Enumerated(EnumType.STRING)
     private IndiUserType userType; // GUEST, USER, ADMIN
-    private int enable;
+
+    @Enumerated(EnumType.STRING)
+    private TableStatus enable;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<UserImage> userImages = new ArrayList<>();
 
     public User(String userId, String password) {
         this.userId = userId;
         this.password = password;
     }
 
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
+    }
+
     public static User createUser(String userId, String password, String name, String introduce, String phone, String website) {
-        return new User(userId, EncryptionUtils.encryptMD5(password), name, introduce, phone, website, IndiUserType.USER, 1);
+        return new User(userId, EncryptionUtils.encryptMD5(password), name, introduce, phone, website, IndiUserType.USER, TableStatus.Y);
     }
 
     public void updateUser(String name, String website, String introduce) {
@@ -46,7 +61,7 @@ public class User extends BaseEntity {
         this.introduce = introduce;
     }
 
-    public User(String userId, String password, String name, String introduce, String phone, String website, IndiUserType userType, int enable) {
+    public User(String userId, String password, String name, String introduce, String phone, String website, IndiUserType userType, TableStatus enable) {
         this.userId = userId;
         this.password = password;
         this.name = name;

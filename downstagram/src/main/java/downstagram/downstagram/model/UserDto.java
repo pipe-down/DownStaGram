@@ -12,6 +12,7 @@ public class UserDto {
     private String phone;
     private String website;
     private String introduce;
+    private String profileImg;
 
     public UserDto(String userId) {
         this.userId = userId;
@@ -24,5 +25,6 @@ public class UserDto {
         this.phone = user.getPhone();
         this.website = user.getWebsite();
         this.introduce = user.getIntroduce();
+        this.profileImg = user.getProfileImg();
     }
 }
