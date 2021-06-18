@@ -1,7 +1,11 @@
 package downstagram.downstagram.controller;
 
+import downstagram.downstagram.domain.Post;
+import downstagram.downstagram.domain.PostImage;
+import downstagram.downstagram.domain.PostStatus;
 import downstagram.downstagram.domain.User;
 import downstagram.downstagram.model.UserDto;
+import downstagram.downstagram.service.PostService;
 import downstagram.downstagram.service.UserService;
 import downstagram.downstagram.utils.CommonFileUtils;
 import lombok.RequiredArgsConstructor;
@@ -10,12 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -23,10 +24,15 @@ import java.util.List;
 public class MainController {
 
     private final UserService userService;
+    private final PostService postService;
 
     @GetMapping("/main")
     public String main_page(Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User u = userService.findByUserId(userId);
+
+        model.addAttribute("posting", postService.findImagePosts(u));
 
         model.addAttribute("userList", userService.list());
         model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
@@ -38,6 +44,11 @@ public class MainController {
     public String main_user(@PathVariable("id") Long id, Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
+
+        User u = userService.findByUserId(userId);
+        List<Post> imagePosts = postService.findImagePosts(u);
+
+        model.addAttribute("posting", imagePosts);
 
         return "/views/myPage";
     }
@@ -77,5 +88,34 @@ public class MainController {
         }
 
         return redirect_url;
+    }
+
+    @GetMapping("/main/upload")
+    public String main_upload(Model model) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
+
+        return "/views/upload";
+    }
+
+    @PostMapping("/main/posting")
+    public String main_posting(HttpServletRequest request, MultipartHttpServletRequest mtfRequest, Model model) throws Exception {
+        // userId로 images 폴더에 userId로 폴더만들기
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        String reqUserId = request.getParameter("userid");
+        User user = userService.findByUserId(reqUserId);
+        String description = request.getParameter("description");
+        String location = request.getParameter("location");
+
+        List<MultipartFile> fileList = mtfRequest.getFiles("files");
+        List<PostImage> postImages = CommonFileUtils.feedUpload(fileList, userId);
+        if (postImages != null) {
+            Post post = Post.createPost(user, description, location, PostStatus.FREE, postImages);
+            postService.save(post);
+        }
+
+        return "redirect:/main";
     }
 }

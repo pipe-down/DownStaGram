@@ -3,7 +3,6 @@ package downstagram.downstagram.service;
 import downstagram.downstagram.domain.User;
 import downstagram.downstagram.model.UserDto;
 import downstagram.downstagram.model.UserRegistrationModel;
-import downstagram.downstagram.repository.UserImageRepository;
 import downstagram.downstagram.repository.UserRepository;
 import downstagram.downstagram.utils.EncryptionUtils;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserImageRepository userImageRepository;
 
     public List<User> list() {
         return userRepository.findAll();

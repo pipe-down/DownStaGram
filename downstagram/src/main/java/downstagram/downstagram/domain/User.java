@@ -40,7 +40,7 @@ public class User extends BaseEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<UserImage> userImages = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
 
     public User(String userId, String password) {
         this.userId = userId;
