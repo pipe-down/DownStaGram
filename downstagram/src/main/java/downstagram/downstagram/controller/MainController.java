@@ -5,10 +5,13 @@ import downstagram.downstagram.domain.PostImage;
 import downstagram.downstagram.domain.PostStatus;
 import downstagram.downstagram.domain.User;
 import downstagram.downstagram.model.UserDto;
+import downstagram.downstagram.service.FollowService;
 import downstagram.downstagram.service.PostService;
 import downstagram.downstagram.service.UserService;
 import downstagram.downstagram.utils.CommonFileUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,16 +28,13 @@ public class MainController {
 
     private final UserService userService;
     private final PostService postService;
+    private final FollowService followService;
 
     @GetMapping("/main")
-    public String main_page(Model model) {
+    public String main_page(@PageableDefault(size = 5) Pageable pageable, Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        User u = userService.findByUserId(userId);
-
-        model.addAttribute("posting", postService.findImagePosts(u));
-
-        model.addAttribute("userList", userService.list());
+        model.addAttribute("posts", postService.findPostPageable(pageable));
         model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
 
         return "/views/main";
@@ -45,10 +45,15 @@ public class MainController {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
 
-        User u = userService.findByUserId(userId);
+        User u = userService.findById(id);
         List<Post> imagePosts = postService.findImagePosts(u);
 
         model.addAttribute("posting", imagePosts);
+        model.addAttribute("pageUser", new UserDto(userService.findById(id)));
+        model.addAttribute("countPost", postService.countPost(id));
+        model.addAttribute("following", followService.countFollowing(id));
+        model.addAttribute("follower", followService.countFollower(id));
+        model.addAttribute("follow", followService.find(id, userId));
 
         return "/views/myPage";
     }

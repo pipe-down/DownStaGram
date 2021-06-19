@@ -5,6 +5,8 @@ import downstagram.downstagram.domain.User;
 import downstagram.downstagram.repository.PostImageRepository;
 import downstagram.downstagram.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,12 +25,16 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public List<Post> findPosts(User user) {
-        return postRepository.findByUserOrderByIdDesc(user);
+    public Page<Post> findPostPageable(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 
     public List<Post> findImagePosts(User user) {
         return postRepository.findByUserOrderByIdDesc(user);
+    }
+
+    public long countPost(Long id) {
+        return postRepository.countByUserId(id);
     }
 
 }

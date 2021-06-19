@@ -10,15 +10,25 @@
   <div class="container">
     <div class="profile">
       <div class="profile-image">
-        <img th:src="'/img/profile/'+ ${user.profileImg}" alt="">
+        <img th:src="'/img/profile/'+ ${pageUser.profileImg}" alt="">
       </div>
 
       <div class="profile-user-settings">
-        <h1 class="profile-user-name" th:text="${user.userId}"></h1>
-        <button class="btn profile-edit-btn"
+        <h1 class="profile-user-name" th:text="${pageUser.userId}"></h1>
+        <button class="btn profile-edit-btn" th:if="${pageUser.id == user.id}"
                 th:onclick="'location.href=\'' + @{'/main/user/update/'+${user.id}} + '\''">프로필 편집</button>
 
-        <button class="btn profile-edit-btn"
+        <form class="button-form" role="form" th:unless="${pageUser.id == user.id}" th:action="${follow == false ? '/follow' : '/unfollow' }"
+              method="post">
+          <input type="hidden" th:value="${user.id}" name="userId">
+          <input type="hidden" th:value="${pageUser.id}" name="pageId">
+          <button th:if="${follow == false}" class="btn profile-edit-btn"
+                  type="submit">팔로잉</button>
+          <button th:unless="${follow == false}" class="btn profile-edit-btn"
+                  type="submit">언팔로잉</button>
+        </form>
+
+        <button class="btn profile-edit-btn" th:if="${pageUser.id == user.id}"
                 onclick="location.href='/main/upload'">포스팅</button>
 
         <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
@@ -26,14 +36,14 @@
 
       <div class="profile-stats">
         <ul>
-          <li><span class="profile-stat-count">164</span> 게시물</li>
-          <li><span class="profile-stat-count">188</span> 팔로워</li>
-          <li><span class="profile-stat-count">206</span> 팔로잉</li>
+          <li><span class="profile-stat-count" th:text="${countPost}"></span> 게시물</li>
+          <li><span class="profile-stat-count" th:text="${follower}"></span> 팔로워</li>
+          <li><span class="profile-stat-count" th:text="${following}"></span> 팔로잉</li>
         </ul>
       </div>
 
       <div class="profile-bio">
-        <p><span class="profile-real-name" th:text="${user.name}"></span> <span th:text="${user.introduce}+'📷✈️🏕️'"></span> <span th:text="${user.website}"></span></p>
+        <p><span class="profile-real-name" th:text="${pageUser.name}"></span> <span th:text="${pageUser.introduce}+'📷✈️🏕️'"></span> <span th:text="${user.website}"></span></p>
       </div>
     </div>
     <!-- End of profile section -->
@@ -45,7 +55,7 @@
 <main>
   <div class="container">
     <div class="gallery">
-      <div class="gallery-item" tabindex="0" th:each="row : ${posting}">
+      <div class="gallery-item" tabindex="0" th:if="${posting.size() > 0}" th:each="row : ${posting}">
         <img th:src="'/img/feed/'+ ${user.userId} + '/' + ${row.postImages[0].imagePath}" class="gallery-image" alt="">
         <div class="gallery-item-info">
           <ul>
@@ -57,7 +67,7 @@
     </div>
     <!-- End of gallery -->
 
-    <div class="loader"></div>
+    <div class="loader" th:if="${posting.size() > 0}"></div>
   </div>
   <!-- End of container -->
 </main>

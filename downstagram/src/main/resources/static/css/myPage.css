@@ -207,7 +207,7 @@ img {
 }
 
 .gallery-image {
-    width: 100%;
+    width: 200px;
     height: 200px;
     object-fit: cover;
 }
@@ -306,6 +306,10 @@ img {
     }
 }
 
+.button-form {
+    display: contents;
+}
+
 /* Spinner Animation */
 
 @keyframes loader {
@@ -347,7 +351,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
     .profile-bio,
     .gallery-item,
     .gallery {
-        width: auto;
+        width: 100%;
         margin: 0;
     }
 

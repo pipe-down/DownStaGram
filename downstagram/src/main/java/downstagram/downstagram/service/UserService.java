@@ -35,12 +35,9 @@ public class UserService {
         return user;
     }
 
-    public UserDto findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return new UserDto(user.get().getUserId());
-        }
-        return null;
+    public User findById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return user;
     }
 
     public User findByUserId(String userId) {
