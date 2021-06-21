@@ -13,7 +13,10 @@
                     <img class="logo_instagram_txt" src="/img/logo_text.png" alt="logo_text">
                 </a>
             </div>
-            <input id="searchInput" type="search" class="input-search" placeholder="검색">
+            <form id="search-form" action="/main/search" method="get">
+                <input id="searchInput" type="search" class="input-search" placeholder="검색" name="word"
+                       onKeypress="javascript:if(event.keyCode==13) {searchData();}">
+            </form>
             <div class="nav-2">
                 <a href="/main">
                     <img src="/img/home.png" alt="홈">
@@ -23,10 +26,16 @@
                 <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png" alt="하트" style="margin-right: 10px">
                 <span th:if="${user.userId!=null}" th:text="${user.userId}"></span>
                 <a th:href="@{'/main/user/'+${user.id}}">
-                    <img class="pic" th:src="'/img/profile/'+ ${user.profileImg}" alt="마이페이지">
+                    <img class="pic" th:if="${user.profileImg != null}" th:src="'/img/profile/'+ ${user.profileImg}" alt="마이페이지">
+                    <img class="pic" th:unless="${user.profileImg != null}" src="/img/profile04.png" alt="마이페이지">
                 </a>
             </div>
         </div>
     </nav>
     </header>
+    <script>
+        function searchData() {
+            $('#search-form').submit();
+        }
+    </script>
 </div>

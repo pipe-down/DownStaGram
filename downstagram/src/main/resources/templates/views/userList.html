@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<head>
+  <link href="/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<style>
+  body {
+    color: #555;
+    background-color: #d3d3d3;
+    font-family: sans-serif;
+  }
+
+  .list-wrapper {
+    max-width: 400px;
+    margin: 50px auto;
+  }
+
+  .list {
+    background: white;
+    border-radius: 2px;
+    list-style: none;
+    padding: 10px 20px;
+  }
+
+  .list-item {
+    display: flex;
+    margin: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .list-item-image {
+    border-radius: 50%;
+    width: 64px;
+    margin-left: 5px;
+    margin-right: 15px;
+  }
+  h4, p{
+    margin: 0;
+  }
+  h4{
+    margin-top: 10px;
+    font-size: 18px;
+  }
+  p{
+    margin-top: 5px;
+    color: #d3d3d3;
+  }
+
+  .search-div{
+    height: 40px;
+    width: 100%;
+    border: 1px solid #1b5ac2;
+    background: #ffffff;
+    margin-bottom: 10px;
+  }
+
+  .search-input{
+    font-size: 16px;
+    width: 325px;
+    padding: 10px;
+    border: 0px;
+    outline: none;
+    float: left;
+  }
+
+  .search-button{
+    width: 50px;
+    height: 100%;
+    border: 0px;
+    background: #1b5ac2;
+    outline: none;
+    float: right;
+    color: #ffffff;
+  }
+</style>
+<body>
+<head th:replace="fragments/bodyHeader :: bodyHeader" />
+<!-- main -->
+<main>
+
+  <div class="list-wrapper" ng-app="app" ng-controller="MainCtrl as ctrl">
+    <form action="/main/search" method="get">
+      <div class="search-div">
+          <input type="text" placeholder="Search..." class="search-input" name="word" th:value="${word}"/>
+          <button type="submit" class="search-button">검색</button>
+      </div>
+    </form>
+    <ul class="list">
+      <li class="list-item" th:if="${find_user.size() > 0}" th:each="row : ${find_user}">
+        <div>
+          <img class="list-item-image" th:if="${user.profileImg != null}" th:src="'/img/profile/'+ ${user.profileImg}" alt="마이페이지">
+          <img class="list-item-image" th:unless="${user.profileImg != null}" src="/img/profile04.png" alt="마이페이지">
+        </div>
+        <div  class="list-item-content">
+          <h4 th:text="${row.name}"></h4>
+          <p th:text="'@'+${row.userId}"></p>
+        </div>
+      </li>
+      <li class="list-item" th:unless="${find_user.size() > 0}">
+        <div>
+          해당 검색과 일치하는 결과가 없습니다.
+        </div>
+      </li>
+    </ul>
+  </div>
+</main>
+</body>
+</html>
