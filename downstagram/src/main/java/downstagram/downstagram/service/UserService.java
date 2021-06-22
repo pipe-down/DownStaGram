@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +44,11 @@ public class UserService {
     public User findByUserId(String userId) {
         User user = userRepository.findUserByUserId(userId);
         return user;
+    }
+
+    public List<UserDto> findByUserIdContainsOrNameContains(String word1, String word2) {
+        List<User> users = userRepository.findByUserIdContainsOrNameContains(word1, word2);
+        return users.stream().map(UserDto::new).collect(Collectors.toList());
     }
 
     @Transactional

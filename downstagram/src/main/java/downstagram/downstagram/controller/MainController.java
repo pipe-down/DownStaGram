@@ -123,4 +123,16 @@ public class MainController {
 
         return "redirect:/main";
     }
+
+    @GetMapping("/main/search")
+    public String searchPage(@RequestParam(value = "word", required = false, defaultValue = "") String word, Model model) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
+
+        model.addAttribute("find_user", userService.findByUserIdContainsOrNameContains(word, word)); // 단어가 포함된 유저list
+        model.addAttribute("word", word);
+
+        return "/views/userList";
+    }
 }

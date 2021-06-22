@@ -67,4 +67,14 @@ class UserRepositoryTest {
         assertThat(findUser.getIntroduce()).isEqualTo("TEST003");
     }
 
+    @Test
+    public void search() {
+        String search = "트2";
+        List<User> users = userRepository.findByUserIdContainsOrNameContains(search, search);
+
+        assertThat(users.size()).isEqualTo(1);
+        assertThat(users).extracting("name").containsExactly("테스트2");
+    }
+
+
 }
