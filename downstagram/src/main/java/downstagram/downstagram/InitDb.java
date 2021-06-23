@@ -3,7 +3,6 @@ package downstagram.downstagram;
 import downstagram.downstagram.domain.Follow;
 import downstagram.downstagram.domain.User;
 import downstagram.downstagram.repository.UserRepository;
-import downstagram.downstagram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor

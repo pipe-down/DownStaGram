@@ -14,6 +14,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final UserService userService;
 
+    @Transactional
     public void save(Long login_id, Long page_id) { // 팔로우
         Follow follow = Follow.createFollow(userService.findById(login_id), userService.findById(page_id));
         followRepository.save(follow);

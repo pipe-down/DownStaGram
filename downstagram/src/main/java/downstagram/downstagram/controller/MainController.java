@@ -80,7 +80,7 @@ public class MainController {
         return redirect_url;
     }
 
-    @RequestMapping(value = "/main/user/image_insert")
+    @PostMapping(value = "/main/user/image_insert")
     public String image_insert(HttpServletRequest request, @RequestParam("filename") MultipartFile mFile, Model model) throws Exception {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByUserId(userId);

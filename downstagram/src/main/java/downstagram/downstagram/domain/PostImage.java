@@ -31,11 +31,4 @@ public class PostImage {
         this.post = post;
     }
 
-    @Override
-    public String toString() {
-        return "PostImage{" +
-                "id=" + id +
-                ", imagePath='" + imagePath + '\'' +
-                '}';
-    }
 }
