@@ -25,7 +25,7 @@
           <button th:if="${follow == false}" class="btn profile-edit-btn"
                   type="submit">팔로잉</button>
           <button th:unless="${follow == false}" class="btn profile-edit-btn"
-                  type="submit">언팔로잉</button>
+                  type="submit">팔로우 취소</button>
         </form>
 
         <button class="btn profile-edit-btn" th:if="${pageUser.id == user.id}"
@@ -67,7 +67,7 @@
     </div>
     <!-- End of gallery -->
 
-    <div class="loader" th:if="${posting.size() > 0}"></div>
+    <div class="loader" th:if="${posting.size() % 3 == 0}"></div>
   </div>
   <!-- End of container -->
 </main>

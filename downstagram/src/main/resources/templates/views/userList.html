@@ -89,14 +89,15 @@
     </form>
     <ul class="list">
       <li class="list-item" th:if="${find_user.size() > 0}" th:each="row : ${find_user}">
-        <div>
-          <img class="list-item-image" th:if="${user.profileImg != null}" th:src="'/img/profile/'+ ${user.profileImg}" alt="마이페이지">
-          <img class="list-item-image" th:unless="${user.profileImg != null}" src="/img/profile04.png" alt="마이페이지">
-        </div>
-        <div  class="list-item-content">
-          <h4 th:text="${row.name}"></h4>
-          <p th:text="'@'+${row.userId}"></p>
-        </div>
+          <div th:onclick="'location.href=\'' + @{'/main/user/'+${row.id}} + '\''" style="cursor:pointer;">
+            <img class="list-item-image" th:if="${user.profileImg != null}" th:src="'/img/profile/'+ ${user.profileImg}" alt="마이페이지">
+            <img class="list-item-image" th:unless="${user.profileImg != null}" src="/img/profile04.png" alt="마이페이지">
+          </div>
+          <div th:onclick="'location.href=\'' + @{'/main/user/'+${row.id}} + '\''" style="cursor:pointer;" class="list-item-content">
+            <h4 th:text="${row.name}"></h4>
+            <p th:text="'@'+${row.userId}"></p>
+          </div>
+        </a>
       </li>
       <li class="list-item" th:unless="${find_user.size() > 0}">
         <div>

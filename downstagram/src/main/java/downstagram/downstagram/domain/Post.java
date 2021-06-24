@@ -1,5 +1,6 @@
 package downstagram.downstagram.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,12 @@ public class Post extends BaseEntity {
     private PostStatus postStatus;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<PostImage> postImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Heart> hearts = new ArrayList<>();
 
     public static Post createPost(User user, String description, String location, PostStatus postStatus, List<PostImage> postImages) {
         Post post = new Post(description, location, postStatus);
@@ -58,14 +64,4 @@ public class Post extends BaseEntity {
         this.postStatus = postStatus;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", user=" + user +
-                ", description='" + description + '\'' +
-                ", location='" + location + '\'' +
-                ", postStatus=" + postStatus +
-                '}';
-    }
 }

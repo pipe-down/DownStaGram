@@ -19,7 +19,9 @@
           <article>
             <header>
               <div class="profile-of-article">
-                <img class="img-profile pic" th:src="'/img/profile/'+ ${row.user.profileImg}" th:alt="${row.user.name}+'님의 프로필 사진'">
+                <img class="img-profile pic" th:if="${user.profileImg != null}" th:src="'/img/profile/'+ ${row.user.profileImg}" th:alt="${row.user.name}+'님의 프로필 사진'">
+                <img class="img-profile pic" th:unless="${user.profileImg != null}" src="/img/profile04.png" th:alt="${row.user.name}+'님의 프로필 사진'">
+
                 <span class="userID main-id point-span" th:text="${row.user.name}"></span>
               </div>
               <img class="icon-react icon-more" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/more.png" alt="more">
@@ -29,7 +31,8 @@
             </div>
             <div class="icons-react">
               <div class="icons-left">
-                <img class="icon-react" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png" alt="하트">
+                <div class="like" th:id="'like'+${row.id}">
+                </div>
                 <img class="icon-react" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/comment.png" alt="말풍선">
                 <img class="icon-react" src="/img/dm.png" alt="DM">
               </div>
@@ -37,9 +40,7 @@
             </div>
             <!-- article text data -->
             <div class="reaction">
-              <div class="liked-people">
-                <img class="pic" src="/img/profile04.png" alt="테스트계정님의 프로필 사진">
-                <p><span class="point-span">테스트게정</span>님 <span class="point-span">외 112,751명</span>이 좋아합니다</p>
+              <div class="liked-people" th:id="'liked-people'+${row.id}">
               </div>
               <div class="description">
                 <p><span class="point-span userID">dlwlrma</span><span class="at-tag">@lal.jh @gucci</span> 🌱</p>
@@ -51,7 +52,7 @@
                     <div>
                       <img class="comment-more" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/more.png" alt="more">
                       <div class="comment-like">
-                        <img class="comment-heart" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png" alt="하트">
+                        <img class="comment-heart" src="/img/like.png" alt="하트">
                         <img class="comment-heart-liked" src="/img/liked.png" alt="좋아요된하트">
                       </div>
                     </div>
@@ -74,7 +75,8 @@
       <!-- main-right -->
       <div class="main-right">
         <div class="myProfile">
-          <img class="pic" th:src="'/img/profile/'+ ${user.profileImg}" th:alt="${user.name}+'님의 프로필 사진'">
+          <img class="pic" th:if="${user.profileImg != null}" th:src="'/img/profile/'+ ${user.profileImg}" th:alt="${user.name}+'님의 프로필 사진'">
+          <img class="pic" th:unless="${user.profileImg != null}" src="/img/profile04.png" th:alt="${user.name}+'님의 프로필 사진'">
           <div>
             <span class="userID point-span" th:text="${user.userId}"></span>
             <span class="sub-span" th:text="${user.name}"></span>
@@ -173,6 +175,83 @@
         </footer>
       </div>
     </main>
-<script src="/js/main.js"></script>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script th:inline="javascript">
+
+      $(document).ready(function() {
+        likeview();
+      });
+
+      function likeview() {
+        /*<![CDATA[*/
+        var testValue = [[${posts}]];
+        for(var i=0; i<testValue.content.length; i++) {
+          let postId = testValue.content[i].id;
+          $.ajax({
+            url: "/like/view",
+            type: "GET",
+            data: {'id' : postId },
+          })
+                  .done(function (fragment) {
+                    let a = '';
+                    let b = '';
+                    if (fragment.cnt == 1) {   // 현재 로그인 유저가 포스팅 좋아요를 눌렀음
+                      a += '<a onclick="likeDelete('+ postId +');"' // likeDelete는 밑에서
+                              + 'class="heartIcon" aria-hidden="true">'
+                              + '<img class="icon-react" src="/img/liked.png" alt="하트" style="cursor:pointer;"></a>'
+                    } else if (fragment.cnt == 0) { // 안눌렀음
+                      a += '<a onclick="likeInsert('+ postId +');"' // likeInsert는 밑에서
+                              + 'class="heartIcon" aria-hidden="true">'
+                              + '<img class="icon-react" src="/img/like.png" alt="하트" style="cursor:pointer;"></a>'
+                    }
+
+                    $("#like" + postId).html(a);
+
+                    if(fragment.total_cnt==1) {
+                      b += '<img class="pic" src="/img/profile04.png" th:alt="${fragment.userName}+\'님의 프로필 사진\'"><p><span class="point-span">'+fragment.userName+'</span>님 '
+                      if(fragment.total_cnt>1) {
+                        b+='<span class="point-span">외 '+numberFormatting(fragment.total_cnt-1)+'명 </span>';
+                      }
+                      b+='이 좋아합니다</p>';
+                    }
+
+                    $("#liked-people" + postId)
+                            .html(b);
+                  });
+        }
+        /*]]>*/
+      }
+
+      function likeInsert(pid){
+        $.ajax({
+          url : '/like/insert/' + pid,
+          type : 'post',
+          success : function(data){
+            if(data == 1)
+              likeview();
+          }
+        });
+      }
+
+      function likeDelete(pid){
+        $.ajax({
+          url : '/like/delete/' + pid,
+          type : 'post',
+          success : function(data){
+            if(data == 1)
+              likeview();
+          }
+        });
+      }
+
+      function numberFormatting(num)
+      {
+        var regexp = /\B(?=(\d{3})+(?!\d))/g;
+        return num.toString().replace(regexp, ',');
+      }
+
+    </script>
 </body>
 </html>
