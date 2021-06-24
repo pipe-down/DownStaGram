@@ -15,7 +15,7 @@ public class FollowController {
     private final FollowService followService;
 
     @PostMapping("/follow")
-    public String follow(HttpServletRequest request, Model model) throws Exception {
+    public String follow(HttpServletRequest request, Model model) {
         String l = request.getParameter("userId");
         String p = request.getParameter("pageId");
 
@@ -30,7 +30,7 @@ public class FollowController {
     }
 
     @PostMapping("/unfollow")
-    public String unfollow(HttpServletRequest request, Model model) throws Exception {
+    public String unfollow(HttpServletRequest request, Model model) {
         String l = request.getParameter("userId");
         String p = request.getParameter("pageId");
 

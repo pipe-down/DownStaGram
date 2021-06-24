@@ -3,6 +3,7 @@ package downstagram.downstagram.controller;
 import downstagram.downstagram.model.UserRegistrationModel;
 import downstagram.downstagram.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,18 +19,18 @@ public class GuestController {
     private final UserService userService;
 
     @GetMapping({"/","/guest/login"})
-    public String login(Model model) {
+    private String login(Model model) {
         return "/guest/login";
     }
 
     @GetMapping("guest/register")
-    public String register(Model model) {
+    private String register(Model model) {
         model.addAttribute("userModel", new UserRegistrationModel());
         return "/guest/registerPage";
     }
 
     @PostMapping("guest/register")
-    public String registerSet(@ModelAttribute("userModel") @Valid UserRegistrationModel userModel, BindingResult result) {
+    private String registerSet(@ModelAttribute("userModel") @Valid UserRegistrationModel userModel, BindingResult result) {
         if (result.hasErrors()) {
             return "guest/registerPage"; // 에러 발생하면 다시 가입창
         }
