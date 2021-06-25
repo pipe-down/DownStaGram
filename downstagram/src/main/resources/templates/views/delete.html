@@ -34,7 +34,8 @@
         alert("비밀번호를 입력하세요");
         return;
       }
-      $('#delete_user').submit();
+
+      if(confirm("정말 탈퇴하시겠습니까?")) $('#delete_user').submit();
     } else {
       alert("유의사항 동의에 체크하세요");
       return;
