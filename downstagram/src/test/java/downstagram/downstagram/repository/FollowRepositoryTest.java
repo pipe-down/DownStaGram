@@ -1,6 +1,8 @@
 package downstagram.downstagram.repository;
 
 import downstagram.downstagram.domain.Follow;
+import downstagram.downstagram.domain.TableStatus;
+import downstagram.downstagram.domain.User;
 import downstagram.downstagram.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -33,8 +35,8 @@ class FollowRepositoryTest {
         long count = followRepository.countByFollowerIdAndFollowingUserId(2L, "test0");
         assertThat(count).isEqualTo(1);
 
-        long count1 = followRepository.countByFollowingId(1L);
-        long count2 = followRepository.countByFollowerId(2L);
+        long count1 = followRepository.countByFollowingIdAndEnable(1L, TableStatus.Y);
+        long count2 = followRepository.countByFollowerIdAndEnable(2L, TableStatus.Y);
         assertThat(count1).isEqualTo(1);
         assertThat(count2).isEqualTo(1);
     }
@@ -42,9 +44,23 @@ class FollowRepositoryTest {
     @Test
     public void unfollow() {
         followRepository.deleteByFollowingIdAndFollowerId(1L, 2L);
-        long count = followRepository.countByFollowingId(1L);
+        long count = followRepository.countByFollowingIdAndEnable(1L, TableStatus.Y);
         assertThat(count).isEqualTo(7);
     }
+
+    @Test
+    public void checkEnable() {
+        User user1 = userService.findById(1L);
+        User user2 = userService.findById(2L);
+
+        user1.enableUser(1);
+        Follow follow = Follow.createFollow(user2, user1);
+        followRepository.save(follow);
+        Follow follow1 = followRepository.findByFollowerIdAndFollowingUserId(user1.getId(), user2.getUserId()).orElse(null);
+
+        assertThat(follow1.getEnable()).isEqualTo(TableStatus.N);
+    }
+
 
     
 }

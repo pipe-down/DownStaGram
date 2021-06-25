@@ -29,6 +29,14 @@
                     <img class="pic" th:if="${user.profileImg != null}" th:src="'/img/profile/'+ ${user.profileImg}" alt="마이페이지">
                     <img class="pic" th:unless="${user.profileImg != null}" src="/img/profile04.png" alt="마이페이지">
                 </a>
+                <div class="dropdown">
+                    <button class="dropdown-button">내 정보</button>
+                    <div class="dropdown-content">
+                        <a href="/main/user/secret_user">계정공개여부</a>
+                        <a href="/main/user/delete">회원탈퇴</a>
+                        <a href="/main/logout_processing">로그아웃</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

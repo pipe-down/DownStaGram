@@ -1,5 +1,6 @@
 package downstagram.downstagram.repository;
 
+import downstagram.downstagram.domain.TableStatus;
 import downstagram.downstagram.domain.User;
 import downstagram.downstagram.utils.EncryptionUtils;
 import org.assertj.core.api.Assertions;
@@ -75,6 +76,14 @@ class UserRepositoryTest {
         assertThat(users.size()).isEqualTo(1);
         assertThat(users).extracting("name").containsExactly("테스트2");
     }
+
+    @Test
+    public void enableCheck() {
+        User user = userRepository.findById(1L).orElse(null);
+
+        assertThat(user.getEnable()).isEqualTo(TableStatus.Y);
+    }
+
 
 
 }

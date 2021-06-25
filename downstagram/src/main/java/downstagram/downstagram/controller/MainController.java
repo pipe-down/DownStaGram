@@ -15,7 +15,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -31,7 +34,7 @@ public class MainController {
     private final FollowService followService;
 
     @GetMapping("/main")
-    public String main_page(@PageableDefault(size = 5) Pageable pageable, Model model) {
+    private String main_page(@PageableDefault(size = 5) Pageable pageable, Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         model.addAttribute("posts", postService.findPostPageable(pageable));
@@ -41,7 +44,7 @@ public class MainController {
     }
 
     @GetMapping("/main/user/{id}")
-    public String main_user(@PathVariable("id") Long id, Model model) {
+    private String main_user(@PathVariable("id") Long id, Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
 
@@ -54,20 +57,30 @@ public class MainController {
         model.addAttribute("following", followService.countFollowing(id));
         model.addAttribute("follower", followService.countFollower(id));
         model.addAttribute("follow", followService.find(id, userId));
+        model.addAttribute("followEnable", followService.checkEnable(id, userId));
 
         return "/views/myPage";
     }
 
     @GetMapping("/main/user/update/{id}")
-    public String update_user(@PathVariable("id") Long id, Model model) {
+    private String update_user(@PathVariable("id") Long id, Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
 
         return "/views/update";
     }
 
+    @GetMapping("/main/user/secret_user")
+    private String secret_view(Model model) { // 비공개
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
+
+        return "/views/secret_user";
+    }
+
     @PostMapping("/main/user/info_update")
-    public String profile_update(HttpServletRequest request, Model model) {
+    private String profile_update(HttpServletRequest request, Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByUserId(userId);
         String redirect_url = "redirect:/main/user/" + user.getId();
@@ -81,7 +94,7 @@ public class MainController {
     }
 
     @PostMapping(value = "/main/user/image_insert")
-    public String image_insert(HttpServletRequest request, @RequestParam("filename") MultipartFile mFile, Model model) throws Exception {
+    private String image_insert(HttpServletRequest request, @RequestParam("filename") MultipartFile mFile, Model model) throws Exception {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByUserId(userId);
         String redirect_url = "redirect:/main/user/update/" + user.getId(); // 사진업로드 이후 redirect될 url
@@ -96,7 +109,7 @@ public class MainController {
     }
 
     @GetMapping("/main/upload")
-    public String main_upload(Model model) {
+    private String main_upload(Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         model.addAttribute("user", new UserDto(userService.findByUserId(userId)));
@@ -105,7 +118,7 @@ public class MainController {
     }
 
     @PostMapping("/main/posting")
-    public String main_posting(HttpServletRequest request, MultipartHttpServletRequest mtfRequest, Model model) throws Exception {
+    private String main_posting(HttpServletRequest request, MultipartHttpServletRequest mtfRequest, Model model) throws Exception {
         // userId로 images 폴더에 userId로 폴더만들기
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -125,7 +138,7 @@ public class MainController {
     }
 
     @GetMapping("/main/search")
-    public String searchPage(@RequestParam(value = "word", required = false, defaultValue = "") String word, Model model) {
+    private String searchPage(@RequestParam(value = "word", required = false, defaultValue = "") String word, Model model) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         model.addAttribute("user", new UserDto(userService.findByUserId(userId)));

@@ -22,10 +22,14 @@
               method="post">
           <input type="hidden" th:value="${user.id}" name="userId">
           <input type="hidden" th:value="${pageUser.id}" name="pageId">
-          <button th:if="${follow == false}" class="btn profile-edit-btn"
+          <button th:if="${follow == false && pageUser.enable.toString()=='N'}" class="btn profile-edit-btn"
                   type="submit">팔로잉</button>
-          <button th:unless="${follow == false}" class="btn profile-edit-btn"
+          <button th:if="${follow == true && pageUser.enable.toString()=='N'}" class="btn profile-edit-btn"
                   type="submit">팔로우 취소</button>
+          <button th:if="${followEnable == false && pageUser.enable.toString()=='Y'}" class="btn profile-edit-btn"
+                  type="submit">요청됨</button>
+          <button th:if="${followEnable == true && pageUser.enable.toString()=='Y'}" class="btn profile-edit-btn"
+                  type="submit">팔로우 신청</button>
         </form>
 
         <button class="btn profile-edit-btn" th:if="${pageUser.id == user.id}"

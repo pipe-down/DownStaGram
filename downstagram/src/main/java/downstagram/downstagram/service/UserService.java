@@ -1,5 +1,6 @@
 package downstagram.downstagram.service;
 
+import downstagram.downstagram.domain.TableStatus;
 import downstagram.downstagram.domain.User;
 import downstagram.downstagram.model.UserDto;
 import downstagram.downstagram.model.UserRegistrationModel;
@@ -60,6 +61,11 @@ public class UserService {
     }
 
     @Transactional
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Transactional
     public void profile_update(String userId, String name, String website, String introduce) {
         User user = findByUserId(userId);
         user.updateUser(name, website, introduce);
@@ -70,6 +76,21 @@ public class UserService {
     public void profile_image(String userId, String profileImg) {
         User user = findByUserId(userId);
         user.setProfileImg(profileImg);
+        userRepository.save(user);
+    }
+
+    public boolean enableCheck(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user.getEnable() == TableStatus.Y) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public void enable_user(Long id, int enableValue) {
+        User user = findById(id);
+        user.enableUser(enableValue);
         userRepository.save(user);
     }
 

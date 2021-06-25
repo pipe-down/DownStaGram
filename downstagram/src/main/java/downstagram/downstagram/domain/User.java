@@ -42,6 +42,14 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "following", cascade = CascadeType.REMOVE)
+    private List<Follow> followings = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.REMOVE)
+    private List<Follow> followers = new ArrayList<>();
+
     public User(String userId, String password) {
         this.userId = userId;
         this.password = password;
@@ -52,7 +60,15 @@ public class User extends BaseEntity {
     }
 
     public static User createUser(String userId, String password, String name, String introduce, String phone, String website) {
-        return new User(userId, EncryptionUtils.encryptMD5(password), name, introduce, phone, website, IndiUserType.USER, TableStatus.Y);
+        return new User(userId, EncryptionUtils.encryptMD5(password), name, introduce, phone, website, IndiUserType.USER, TableStatus.N);
+    }
+
+    public void enableUser(int enableValue) {
+        if (enableValue == 0) {
+            this.enable = TableStatus.N;
+        } else {
+            this.enable = TableStatus.Y;
+        }
     }
 
     public void updateUser(String name, String website, String introduce) {
@@ -70,21 +86,6 @@ public class User extends BaseEntity {
         this.website = website;
         this.userType = userType;
         this.enable = enable;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userId='" + userId + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", introduce='" + introduce + '\'' +
-                ", phone='" + phone + '\'' +
-                ", website='" + website + '\'' +
-                ", userType=" + userType +
-                ", enable=" + enable +
-                '}';
     }
 }
 

@@ -33,12 +33,20 @@ public class Follow extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     private User follower;
 
-    public Follow(User following, User follower) {
+    @Enumerated(EnumType.STRING)
+    private TableStatus enable;
+
+    public Follow(User following, User follower, TableStatus enable) {
         this.following = following;
         this.follower = follower;
+        this.enable = enable;
     }
 
     public static Follow createFollow(User following, User follower) {
-        return new Follow(following, follower);
+        if (follower.getEnable() == TableStatus.Y) {
+            return new Follow(following, follower, TableStatus.N);
+        } else {
+            return new Follow(following, follower, TableStatus.Y);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package downstagram.downstagram.service;
 
 import downstagram.downstagram.domain.Follow;
+import downstagram.downstagram.domain.TableStatus;
 import downstagram.downstagram.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,19 @@ public class FollowService {
         return followRepository.countByFollowerIdAndFollowingUserId(id, userId) == 0 ? false : true;
     }
 
+    public boolean checkEnable(Long id, String userId) {
+        Follow follow = followRepository.findByFollowerIdAndFollowingUserId(id, userId).orElse(null);
+        if (follow != null && follow.getEnable() == TableStatus.N) {
+            return false;
+        }
+        return true;
+    }
+
     public long countFollowing(Long id) {
-        return followRepository.countByFollowingId(id);
+        return followRepository.countByFollowingIdAndEnable(id, TableStatus.Y);
     }
 
     public long countFollower(Long id) {
-        return followRepository.countByFollowerId(id);
+        return followRepository.countByFollowerIdAndEnable(id, TableStatus.Y);
     }
 }
