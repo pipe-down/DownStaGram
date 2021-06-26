@@ -3,78 +3,8 @@
 <head th:replace="fragments/header :: header" />
 <head>
   <link href="/css/main.css" rel="stylesheet" type="text/css" />
+  <link href="/css/userList.css" rel="stylesheet" type="text/css" />
 </head>
-<style>
-  body {
-    color: #555;
-    background-color: #d3d3d3;
-    font-family: sans-serif;
-  }
-
-  .list-wrapper {
-    max-width: 400px;
-    margin: 50px auto;
-  }
-
-  .list {
-    background: white;
-    border-radius: 2px;
-    list-style: none;
-    padding: 10px 20px;
-  }
-
-  .list-item {
-    display: flex;
-    margin: 10px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  .list-item-image {
-    border-radius: 50%;
-    width: 64px;
-    margin-left: 5px;
-    margin-right: 15px;
-  }
-  h4, p{
-    margin: 0;
-  }
-  h4{
-    margin-top: 10px;
-    font-size: 18px;
-  }
-  p{
-    margin-top: 5px;
-    color: #d3d3d3;
-  }
-
-  .search-div{
-    height: 40px;
-    width: 100%;
-    border: 1px solid #1b5ac2;
-    background: #ffffff;
-    margin-bottom: 10px;
-  }
-
-  .search-input{
-    font-size: 16px;
-    width: 325px;
-    padding: 10px;
-    border: 0px;
-    outline: none;
-    float: left;
-  }
-
-  .search-button{
-    width: 50px;
-    height: 100%;
-    border: 0px;
-    background: #1b5ac2;
-    outline: none;
-    float: right;
-    color: #ffffff;
-  }
-</style>
 <body>
 <head th:replace="fragments/bodyHeader :: bodyHeader" />
 <!-- main -->
