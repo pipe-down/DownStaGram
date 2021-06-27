@@ -1,13 +1,12 @@
 package downstagram.downstagram.domain;
 
-import downstagram.downstagram.utils.EncryptionUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity(name = "indi_follow")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -40,6 +39,10 @@ public class Follow extends BaseTimeEntity {
         this.following = following;
         this.follower = follower;
         this.enable = enable;
+    }
+
+    public void acceptFollow() {
+        this.enable = TableStatus.Y;
     }
 
     public static Follow createFollow(User following, User follower) {

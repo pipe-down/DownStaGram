@@ -44,7 +44,7 @@ public class InitDb {
         public void init2() {
             for (int i = 1; i < 9; i++) {
                 List<User> users = userRepository.findAll();
-                Follow follow = Follow.createFollow(users.get(0), users.get(i));
+                Follow follow = Follow.createFollow(users.get(i), users.get(0));
                 em.persist(follow);
             }
         }

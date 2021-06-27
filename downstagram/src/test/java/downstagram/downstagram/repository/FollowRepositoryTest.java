@@ -4,7 +4,6 @@ import downstagram.downstagram.domain.Follow;
 import downstagram.downstagram.domain.TableStatus;
 import downstagram.downstagram.domain.User;
 import downstagram.downstagram.service.UserService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,8 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -61,6 +59,14 @@ class FollowRepositoryTest {
         assertThat(follow1.getEnable()).isEqualTo(TableStatus.N);
     }
 
+    @Test
+    public void secretFollow() {
+        List<Follow> follows = followRepository.followingReq(3L, TableStatus.N);
 
-    
+//        assertThat(follows.size()).isEqualTo(4);
+        for (Follow follow : follows) {
+//            assertThat(follow.getFollower().getName()).startsWith("테스트");
+            assertThat(follow.getFollowing().getName()).isEqualTo("테스트0");
+        }
+    }
 }

@@ -1,7 +1,12 @@
 package downstagram.downstagram.repository;
 
+import downstagram.downstagram.domain.TableStatus;
 import downstagram.downstagram.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
