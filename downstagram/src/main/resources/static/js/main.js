@@ -1,5 +1,5 @@
-const commentInput = document.getElementsByClassName('input-comment')[0];
-const commentBtn = document.getElementsByClassName('submit-comment')[0];
+const commentInput = document.querySelectorAll('.input-comment');
+const commentBtn = document.querySelectorAll('.submit-comment');
 const commentList = document.getElementsByClassName('comments')[0];
 
 // 댓글 달기
@@ -49,38 +49,39 @@ function addComment() {
     commentLike.appendChild(likedBtn);
     commentBtns.appendChild(deleteBtn);
     commentBtns.appendChild(commentLike);
-    newComment.appendChild(commentBtns);
-    commentList.appendChild(newComment);
-    commentInput.value = "";
+    // newComment.appendChild(commentBtns);
+    // commentList.appendChild(newComment);
+    // commentInput.value = "";
     commentBtn.disabled = true;
 }
 
-commentBtn.addEventListener('click', function(){
+/*commentBtn.addEventListener('click', function(){
     if (commentInput.value) {
         addComment();
     }
-})
+})*/
 
-commentInput.addEventListener('keyup', function(e){
-    if (commentInput.value) {
-        commentBtn.disabled = false;
-        if (e.which === 13) {
+commentInput.forEach(ci => ci.addEventListener('keyup', function(e) {
+    var setNum = parseInt(e.target.id);
+    if (e.target.value) {
+        commentBtn[setNum].disabled = false;
+        /*if (e.which === 13) {
             addComment();
-        }
+        }*/
     }
     else {
-    commentBtn.disabled = true;
+        commentBtn[setNum].disabled = true;
     }
-})
+}));
 
-// 댓글 지우기
+/*// 댓글 지우기
 
 let deleteBtn = document.querySelectorAll('.comment-more');
 deleteBtn.forEach(function(event) {
     event.addEventListener('click', function() {
         this.parentNode.parentNode.remove();
     });
-})
+})*/
 
 // 댓글 좋아요
 
