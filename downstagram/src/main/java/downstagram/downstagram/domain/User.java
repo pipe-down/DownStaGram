@@ -50,6 +50,10 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "follower", cascade = CascadeType.REMOVE)
     private List<Follow> followers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
+
     public User(String userId, String password) {
         this.userId = userId;
         this.password = password;

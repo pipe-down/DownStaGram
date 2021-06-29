@@ -1,14 +1,17 @@
 package downstagram.downstagram;
 
-import downstagram.downstagram.domain.Follow;
-import downstagram.downstagram.domain.User;
+import downstagram.downstagram.domain.*;
+import downstagram.downstagram.repository.CommentRepository;
 import downstagram.downstagram.repository.UserRepository;
+import downstagram.downstagram.service.PostService;
+import downstagram.downstagram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -21,6 +24,7 @@ public class InitDb {
     public void init() {
         initService.init();
         initService.init2();
+        initService.init3();
     }
 
     @Component
@@ -28,7 +32,9 @@ public class InitDb {
     @RequiredArgsConstructor
     static class InitService {
         private final EntityManager em;
-        private final UserRepository userRepository;
+        private final UserService userService;
+        private final PostService postService;
+        private final CommentRepository commentRepository;
 
         public void init() {
             for (int i = 0; i < 10; i++) {
@@ -43,10 +49,26 @@ public class InitDb {
 
         public void init2() {
             for (int i = 1; i < 9; i++) {
-                List<User> users = userRepository.findAll();
+                List<User> users = userService.list();
                 Follow follow = Follow.createFollow(users.get(i), users.get(0));
                 em.persist(follow);
             }
+        }
+
+        public void init3() {
+            User user = userService.findByUserId("test1");
+            List<PostImage> postImages = new ArrayList<>();
+
+            for (int i = 0; i < 3; i++) {
+                PostImage postImage = new PostImage("testPath"+i+".gif");
+                postImages.add(postImage);
+            }
+            Post post = Post.createPost(user, "descriptionTest", "locationTEst", PostStatus.FREE, postImages);
+
+            postService.save(post);
+            Comment comment = Comment.createComment(user, post, "commentTest");
+            commentRepository.save(comment);
+
         }
     }
 }

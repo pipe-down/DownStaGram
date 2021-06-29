@@ -20,6 +20,10 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostImageRepository postImageRepository;
 
+    public Post findPost(Long id) {
+        return postRepository.findById(id).orElse(null);
+    }
+
     @Transactional
     public void save(Post post) {
         postRepository.save(post);

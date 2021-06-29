@@ -39,6 +39,10 @@ public class Post extends BaseEntity {
     @JsonIgnore
     private List<Heart> hearts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
+
     public static Post createPost(User user, String description, String location, PostStatus postStatus, List<PostImage> postImages) {
         Post post = new Post(description, location, postStatus);
         post.setUser(user);
