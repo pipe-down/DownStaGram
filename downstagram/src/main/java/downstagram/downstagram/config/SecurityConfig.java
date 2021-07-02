@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/guest/**").permitAll()
+                .antMatchers("/chat/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/", "/resources/**")
                 .permitAll()
