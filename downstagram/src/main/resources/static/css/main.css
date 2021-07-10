@@ -27,12 +27,13 @@ span.point-span {
     color: #262626;
 }
 /* nav */
-nav-position {
+.nav-position {
     position: fixed;
     top: 0;
     width: 100%;
     left: 0;
     right: 0;
+    z-index: 100;
 }
 
 nav {
@@ -117,12 +118,14 @@ main {
     margin: 0 auto;
     padding-top: 14px;
     padding-bottom: 40px;
+    z-index: 2;
 }
 .main-right {
     width: 310px;
     display: inline-block;
     position: fixed;
     top: 94px;
+    z-index: 1;
 }
 .feeds {
     width: 614px;
@@ -146,12 +149,13 @@ article {
     height: 212px;
     margin-bottom: 20px;
     overflow-y: auto;
+    z-index: 1;
 }
 .section-recommend {
     height: 180px;
 }
 /* article */
-header {
+.header {
     height: 60px;
     padding: 0;
     display: flex;
@@ -403,16 +407,16 @@ ul.story-list .profile-text {
     position: relative;
     display: inline-block;
     margin-left: 10px;
+    z-index: 100;
 }
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
     min-width: 125px;
-    padding: 5px;
+    padding: 6px 8px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     font-size: 14px;
-    z-index: 1;
 }
 .dropdown-content a {
     color: black;
