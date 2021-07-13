@@ -20,5 +20,7 @@ public class ChatMessage {
     private String receiver;
     private String writer;
     private String message;
+
+    @Enumerated(EnumType.STRING)
     private MessageType type; // ENTER,CHAT,LEAVE
 }
