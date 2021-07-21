@@ -15,7 +15,7 @@ public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatRoomId")
-    private Long id;
+    private String id;
 
     private String receiver;
     private String writer;
