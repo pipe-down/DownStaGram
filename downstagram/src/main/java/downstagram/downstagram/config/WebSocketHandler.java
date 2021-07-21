@@ -1,5 +1,10 @@
 package downstagram.downstagram.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import downstagram.downstagram.domain.ChatMessage;
+import downstagram.downstagram.domain.ChatRoom;
+import downstagram.downstagram.service.ChatRoomService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -12,8 +17,11 @@ import java.util.List;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class WebSocketHandler extends TextWebSocketHandler {
-    private List<WebSocketSession> sessions = new ArrayList<>();
+    private final List<WebSocketSession> sessions = new ArrayList<>();
+    private final ChatRoomService chatRoomService;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -28,6 +36,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
             TextMessage msg = new TextMessage(message.getPayload());
             sess.sendMessage(msg);
         }
+
+        log.info("메세지 전송 = {} : {}",session,message.getPayload());
+        String msg = message.getPayload();
+        ChatMessage chatMessage = objectMapper.readValue(msg,ChatMessage.class);
+        ChatRoom chatRoom = chatRoomService.findRoomById(chatMessage.getId());
+//        chatRoom.handleMessage(session,chatMessage,objectMapper);
     }
 
     @Override
