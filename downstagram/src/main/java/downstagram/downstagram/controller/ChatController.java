@@ -36,18 +36,21 @@ public class ChatController {
     public List<ChatRoom> room() {
         return chatRoomService.findAllRoom();
     }
+
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
     public ChatRoom createRoom(@RequestParam String name) {
         return chatRoomService.save(name);
     }
+
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable Long roomId) {
         model.addAttribute("roomId", roomId);
         return "/chat/roomdetail";
     }
+    
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
     @ResponseBody
