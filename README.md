@@ -28,7 +28,7 @@ JAVA, JPA, Spring Security, AJAX, Devtools 등
 
 ## 프레임워크
 
-Spring boot
+Spring Framework
 
 ## 데이터베이스
 
